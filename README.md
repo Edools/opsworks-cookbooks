@@ -7,29 +7,20 @@ Chef Cookbooks for the AWS OpsWorks Service used by Edools
 
 Set environment variables for your environment.
 
-You can do 2 things:
-* Sets environment variables for machine
-	* To make it work specify your variables, enable Custom Chef Recipes and include "environment_variables::configure" recipe to the "configure" section of your application layer
+To make it work enable Custom Chef Recipes:
+- Repository type: `Git`
+- Repository URL: `https://github.com/Edools/opsworks-cookbooks.git`
 
-To set environment variables specify custom Chef JSON with required key/value pairs.
+And include `environment_variables::default` recipe to the `deploy` section of your application layer.
 
-E.g.
+To set environment variables specify custom Chef JSON with required 'key/value' pairs.
+
+For example:
 ```json
 {
   "environment_variables": {
-    "NODE_ENV": "production"
-  },
-  "deploy": {
-    "app_name": {
-      "environment_variables": {
-        "NODE_ENV": "production",
-        "ENV_1": "value_of_env_1",
-        "ENV_2": "value_of_env_2"
-      }
-    }
+    "VAR_1": "var-1-value",
+    "VAR_2": "var-2-value"
   }
 }
 ```
-
-In JSON above first "environment_variables" sets environment variables for machine (user root).
-The section "environment_variables" under "deploy" specifying environment variables for Node.js process which will be hit with "monit restart app_name".
