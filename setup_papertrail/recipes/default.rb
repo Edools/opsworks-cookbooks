@@ -37,7 +37,7 @@ template "/etc/log_files.yml" do
   owner "root"
   group "root"
   variables({
-    :app_src => node[:deploy][application][:deploy_to]
+    :app_src => node[:app_src]
   })
 end
 
