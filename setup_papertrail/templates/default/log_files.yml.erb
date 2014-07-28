@@ -1,0 +1,8 @@
+files:
+  - <%= @app_src %>/current/log/production.log %>
+  - <%= @app_src %>/current/log/unicorn.stderr.log %>
+  - <%= @app_src %>/current/log/unicorn.stdout.log %>
+
+destination:
+  host: logs2.papertrailapp.com
+  port: 47777

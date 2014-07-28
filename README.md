@@ -24,3 +24,7 @@ For example:
   }
 }
 ```
+
+## Thanks to
+
+https://github.com/vlamic/OpsWorksEnvy
