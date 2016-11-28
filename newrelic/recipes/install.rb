@@ -13,10 +13,14 @@ execute "create the agents apt repo" do
 end
 
 execute "update apt cache" do
+	not_if('dpkg-query -W newrelic-infra')
+
 	command('sudo apt-get update')
 end
 
 execute "install newrelic" do
+	not_if('dpkg-query -W newrelic-infra')
+
 	command('sudo apt-get install newrelic-infra -y')
 end
 
