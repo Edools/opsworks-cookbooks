@@ -43,11 +43,6 @@ file nginx_conf_file do
 						  gzip_vary on;
 						  gzip_disable "MSIE [1-6].(?!.*SV1)";
 
-						  client_body_buffer_size 10K;
-						  client_header_buffer_size 1k;
-						  client_max_body_size 8m;
-						  large_client_header_buffers 2 1k;
-
 						  server_names_hash_bucket_size 64;
 
 						  include /etc/nginx/conf.d/*.conf;
