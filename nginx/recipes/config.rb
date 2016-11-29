@@ -34,6 +34,8 @@ file nginx_conf_file do
 						  keepalive_timeout  65;
 						  keepalive_requests 100000;
 
+						  client_max_body_size 40M;
+
 						  gzip  on;
 						  gzip_static  on;
 						  gzip_http_version 1.0;
