@@ -1,7 +1,7 @@
 Chef::Log.info("[Start] Restart newrelic")
 
 execute "create a configuration file with license key" do
-	command('rm /etc/newrelic-infra.yml')
+	command('sudo rm /etc/newrelic-infra.yml')
 	command('printf "license_key: 62ba8700373589b340a692b6acad3432c1bb695a" | sudo tee -a /etc/newrelic-infra.yml')
 end
 
