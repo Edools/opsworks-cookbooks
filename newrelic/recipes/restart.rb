@@ -1,18 +1,19 @@
 Chef::Log.info("[Start] Restart newrelic")
 
+execute "create a configuration file with license key" do
+	command('rm /etc/newrelic-infra.yml')
+	command('printf "license_key: 62ba8700373589b340a692b6acad3432c1bb695a" | sudo tee -a /etc/newrelic-infra.yml')
+end
+
 execute "stop newrelic" do
-	only_if('sudo initctl status newrelic-infra | grep running')
-	Chef::Log.info("TEST STOP NEWRELIC #1")
 	only_if('sudo initctl status newrelic-infra | grep running -c')
-	Chef::Log.info("TEST STOP NEWRELIC #2")
+	
 	command('sudo initctl stop newrelic-infra')
 end
 
 execute "start newrelic" do
-	not_if('sudo initctl status newrelic-infra | grep running')
-	Chef::Log.info("TEST START NEWRELIC #1")
 	not_if('sudo initctl status newrelic-infra | grep running -c')
-	Chef::Log.info("TEST START NEWRELIC #2")
+
 	command('sudo initctl start newrelic-infra')
 end
 
