@@ -6,7 +6,7 @@ execute "move newrelic.yml to tmp" do
 	command("mv #{newrelic_yml_file} #{newrelic_yml_file}.tmp")
 end
 
-file nginx_conf_file do
+file newrelic_yml_file do
   content '
 common: &default_settings
   license_key: "62ba8700373589b340a692b6acad3432c1bb695a"
