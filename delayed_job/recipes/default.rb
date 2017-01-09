@@ -12,9 +12,16 @@ node[:deploy].each do |application, deploy|
     Chef::Log.info("Restarting delayed_job ...")
 
     code <<-EOH
-      RAILS_ENV=#{deploy[:rails_env]} bin/delayed_job stop
-      RAILS_ENV=#{deploy[:rails_env]} bin/delayed_job start
-      EOH
+      cat <<EOF >/start.sh
+        RAILS_ENV=production bundle exec rake jobs:work
+      EOF
+    EOH
+
+    code <<-EOH
+      kill -9 $(ps aux | grep jobs:work | grep -v grep | awk '{print $2}')
+      chmod +x start.sh
+      nohup ./start.sh 0<&- &> my.admin.log.file &
+    EOH
   end
 end
 
