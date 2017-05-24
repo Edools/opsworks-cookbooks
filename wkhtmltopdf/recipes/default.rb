@@ -1,7 +1,7 @@
 Chef::Log.info('Starting wkhtmltopdf check/install')
 
 execute "downloading wkhtmltopdf" do
-  command "wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2/wkhtmltox-0.12.2_linux-trusty-amd64.deb"
+  command "wget https://s3.amazonaws.com/clientes-edools-3/wkhtmltox-0.12.2_linux-trusty-amd64.deb"
 end
 
 execute "install wkhtmltopdf" do
