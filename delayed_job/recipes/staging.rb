@@ -14,7 +14,7 @@ node[:deploy].each do |application, deploy|
     code <<-EOH
       rm -f start.sh
       echo "#! /bin/sh" >> start.sh
-      echo "RAILS_ENV=staging bin/delayed_job start" >> start.sh
+      echo "RAILS_ENV=staging bin/delayed_job --pool=payment --pool=hermes:2 --pool=default --pool=report" >> start.sh
       kill -9 $(ps aux | grep delayed_job | grep -v grep | awk '{print $2}')
       chmod +x start.sh
       nohup ./start.sh 0<&- &> my.admin.log.file &
