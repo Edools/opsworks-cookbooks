@@ -14,7 +14,7 @@ node[:deploy].each do |application, deploy|
     code <<-EOH
       rm -f start.sh
       echo "#! /bin/sh" >> start.sh
-      echo "RAILS_ENV=production bundle exec rake jobs:work" >> start.sh
+      echo "RAILS_ENV=staging bin/delayed_job start" >> start.sh
       kill -9 $(ps aux | grep jobs:work | grep -v grep | awk '{print $2}')
       chmod +x start.sh
       nohup ./start.sh 0<&- &> my.admin.log.file &
