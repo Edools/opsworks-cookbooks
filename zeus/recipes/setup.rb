@@ -10,7 +10,7 @@ execute "install zeus dependencies" do
   command("sudo npm install node-gyp --global")
   command("sudo npm install pm2 --global")
   command("sudo apt-get install libcap2-bin")
-  command("sudo setcap cap_net_bind_service=+ep `readlink -f \\`which node\\``")
+  #command("sudo setcap cap_net_bind_service=+ep `readlink -f \\`which node\\``")
 end
 
 Chef::Log.info("[End] Setup zeus")
