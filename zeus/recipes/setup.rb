@@ -1,7 +1,11 @@
 Chef::Log.info("[Start] Setup zeus")
 
-bash "install zues dependencies" do
-  code <<-EOH
+setup_sh_file = '/setup.sh'
+
+file setup_sh_file do
+  content '
+    # setup.sh
+    #! /bin/bash
     sudo apt-get update -y 
     sudo apt-get install nodejs -y
     sudo apt-get install npm -y
@@ -11,8 +15,12 @@ bash "install zues dependencies" do
     sudo npm install node-gyp --global
     sudo npm install pm2 --global
     sudo apt-get install libcap2-bin
-    sudo setcap cap_net_bind_service=+ep `readlink -f \\`which node\\
-  EOH
+    sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\
+  '
+end
+
+bash 'install zues dependencies' do
+  code 'source /setup.sh'
 end
 
 Chef::Log.info("[End] Setup zeus")
