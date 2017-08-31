@@ -10,7 +10,8 @@ bash "install zues dependencies" do
     sudo n 5.6.0
     sudo npm install node-gyp --global
     sudo npm install pm2 --global
-    sudo apt-get install libcap2-bin 
+    sudo apt-get install libcap2-bin
+    sudo setcap cap_net_bind_service=+ep `readlink -f \\`which node\\
   EOH
 end
 
