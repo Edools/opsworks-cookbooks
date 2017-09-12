@@ -19,7 +19,7 @@ file setup_sh_file do
   '
 end
 
-bash 'install zues dependencies' do
+bash 'install zeus dependencies' do
   code 'source /setup.sh'
 end
 
