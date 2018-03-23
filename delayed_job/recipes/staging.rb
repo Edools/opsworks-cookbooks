@@ -20,7 +20,6 @@ node[:deploy].each do |application, deploy|
       echo "RAILS_ENV=staging bin/delayed_job -i default --queue=default start" >> start.sh
       echo "RAILS_ENV=staging bin/delayed_job -i default2 --queue=default start" >> start.sh
       echo "RAILS_ENV=staging bin/delayed_job -i report --queue=report start" >> start.sh
-      echo "RAILS_ENV=staging bin/delayed_job -i lesson_progress --queue=lesson_progress start" >> start.sh
       echo "RAILS_ENV=staging bin/delayed_job -i bulk_invitation --queue=bulk_invitation start" >> start.sh
       echo "RAILS_ENV=staging bin/delayed_job -i searchkick --queue=searchkick start" >> start.sh
       kill -9 $(ps aux | grep delayed_job | grep -v grep | awk '{print $2}')
