@@ -1,3 +1,7 @@
-source "https://api.berkshelf.com"
+source 'https://supermarket.chef.io'
 
-cookboot "redisio", git: 'git@github.com:brianbianco/redisio.git', tag: '2.5.0'
+metadata
+
+group :development do
+  cookbook 'test', path: 'test/fixtures/cookbooks/test'
+end
