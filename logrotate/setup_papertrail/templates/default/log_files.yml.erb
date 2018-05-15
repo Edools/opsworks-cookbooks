@@ -1,0 +1,9 @@
+files:
+  - <%= @app_src %>/log/production.log
+  - <%= @app_src %>/log/unicorn.stderr.log
+  - <%= @app_src %>/log/unicorn.stdout.log
+  - <%= @app_src %>/log/cron.log
+
+destination:
+  host: logs2.papertrailapp.com
+  port: 47777
