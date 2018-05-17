@@ -15,6 +15,8 @@ node[:deploy].each do |application, deploy|
       rm -f start.sh
       echo "#! /bin/sh" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i payment --queue=payment start" >> start.sh
+      echo "RAILS_ENV=production bin/delayed_job -i payment2 --queue=payment start" >> start.sh
+      echo "RAILS_ENV=production bin/delayed_job -i payment3 --queue=payment start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i hermes --queue=hermes start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i hermes2 --queue=hermes start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i default --queue=default start" >> start.sh
