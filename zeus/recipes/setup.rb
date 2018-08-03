@@ -11,7 +11,7 @@ file setup_sh_file do
     sudo apt-get install npm -y
     sudo apt-get install python -y
     sudo npm install n --global
-    sudo n 5.6.0
+    sudo n 10.6.0
     sudo npm install node-gyp --global
     sudo npm install pm2 --global
     sudo apt-get install libcap2-bin
