@@ -17,16 +17,10 @@ node[:deploy].each do |application, deploy|
       echo "RAILS_ENV=production bin/delayed_job -i payment --queue=payment start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i payment2 --queue=payment start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i payment3 --queue=payment start" >> start.sh
-      echo "RAILS_ENV=production bin/delayed_job -i hermes --queue=hermes start" >> start.sh
-      echo "RAILS_ENV=production bin/delayed_job -i hermes2 --queue=hermes start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i default --queue=default start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i default2 --queue=default start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i report --queue=report start" >> start.sh
       echo "RAILS_ENV=production bin/delayed_job -i bulk_invitation --queue=bulk_invitation start" >> start.sh
-      echo "RAILS_ENV=production bin/delayed_job -i searchkick1 --queue=searchkick start" >> start.sh
-      echo "RAILS_ENV=production bin/delayed_job -i searchkick2 --queue=searchkick start" >> start.sh
-      echo "RAILS_ENV=production bin/delayed_job -i searchkick3 --queue=searchkick start" >> start.sh
-      echo "RAILS_ENV=production bin/delayed_job -i searchkick4 --queue=searchkick start" >> start.sh
       kill -9 $(ps aux | grep delayed_job | grep -v grep | awk '{print $2}')
       chmod +x start.sh
       nohup ./start.sh 0<&- &> my.admin.log.file &
