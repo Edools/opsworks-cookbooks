@@ -14,8 +14,7 @@ node[:deploy].each do |application, deploy|
     code <<-EOH
       rm -f start_sidekiq.sh
       echo "#! /bin/sh" >> start_sidekiq.sh
-      echo "bundle exec sidekiq -d -L log/sidekiq.log -C config/sidekiq.yml -e staging -q searchkick" >> start_sidekiq.sh
-      echo "bundle exec sidekiq -d -L log/sidekiq.log -C config/sidekiq.yml -e staging -q hermes" >> start_sidekiq.sh
+      echo "bundle exec sidekiq -d -L log/sidekiq.log -C config/sidekiq.yml -e production" >> start_sidekiq.sh
       kill -9 $(ps aux | grep sidekiq | grep -v grep | awk '{print $2}')
       chmod +x start_sidekiq.sh
       nohup ./start_sidekiq.sh 0<&- &> log/sidekiq_start.log &
