@@ -27,10 +27,12 @@ end
 
 execute "compilling brotli" do
   command "make"
+  cwd "brotli-master"
 end
 
 execute "installing brotli" do
   command "sudo make install"
+  cwd "brotli-master"
 end
 
 
