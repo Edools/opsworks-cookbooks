@@ -16,12 +16,13 @@ execute "unziping brotli" do
   command "unzip master.zip"
 end
 
-execute "entering brotli directory" do
-  command "cd brotli-master"
-end
+# execute "entering brotli directory" do
+#   command "cd brotli-master"  
+# end
 
 execute "preparing to compile brotli" do
   command "./configure-cmake"
+  cwd "brotli-master"
 end
 
 execute "compilling brotli" do
