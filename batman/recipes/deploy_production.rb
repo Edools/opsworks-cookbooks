@@ -5,74 +5,6 @@ Chef::Log.info("[Start] Deploy batman production")
 #   action :post
 # end
 
-file '~/.ssh/id_rsa' do
-  content '-----BEGIN OPENSSH PRIVATE KEY-----
-  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
-  -----END OPENSSH PRIVATE KEY-----'
-end
-
-file '~/.ssh/id_rsa.pub' do
-  content 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCuHV9+jopgsHKMpfSEJhYwncjHWLDXRzkv8C15ktbx7gnCjXIkRoOdHyr1I89WgLUEsuCSq1+4Q7yImB8USZsHIV2YKejM0CkQIm3dw11aCWfRhOn4H5yt9r7imiOt0o8TYK/JJYR2KxIQZQNrlOysOkLZnRmEJldID98fH0YQLVUMn40DTY2OoReaPlmRs5rzqLKbqkPQtMqg4ADIAnxuhJNvZwCVw4XLzj5QAmKMsTIL/dAvhHp4YU3CbiHsLcbicvnzg4kH5tqulH1znp3aiYEPmW/B/5Vn9YpXut5eb0sOlxIIkLGTpbhIRMp624yAxEApphCZzopMShyjSB5Bw4qtGL2dwzETRNzIWS4XOESZWuWZLo324eMcba7nDsomIQYoYY6UswDc30u7nC3MntGceACXbdUc6eL8a4zEGaYWFmBKxlbZF1gIJ9AOrP7eC92TfLaCA4OOo7ZYIKb8EF/lv7AcobpBFdbgYoM48Aa7G9R861DC7FcXm5D1W+RzW448p+N6mm5xsv6/+RiYdludZe5eS94pUuep6QVBkO+WHN2wZ0/OXAR8JvOiZX4vzhgTN27WZagewRDNlFCpalfYPHeVnWJRUxWrFGjBFBYID2V9cnqd9vUDnFtOlz2bfxJkrRfnNVMo9+DUTRhhERXSqRsIe6RR4J4qToQKAw== deploy@herospark.com'
-end
-file '~/.ssh/authorized_keys' do
-  content 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCuHV9+jopgsHKMpfSEJhYwncjHWLDXRzkv8C15ktbx7gnCjXIkRoOdHyr1I89WgLUEsuCSq1+4Q7yImB8USZsHIV2YKejM0CkQIm3dw11aCWfRhOn4H5yt9r7imiOt0o8TYK/JJYR2KxIQZQNrlOysOkLZnRmEJldID98fH0YQLVUMn40DTY2OoReaPlmRs5rzqLKbqkPQtMqg4ADIAnxuhJNvZwCVw4XLzj5QAmKMsTIL/dAvhHp4YU3CbiHsLcbicvnzg4kH5tqulH1znp3aiYEPmW/B/5Vn9YpXut5eb0sOlxIIkLGTpbhIRMp624yAxEApphCZzopMShyjSB5Bw4qtGL2dwzETRNzIWS4XOESZWuWZLo324eMcba7nDsomIQYoYY6UswDc30u7nC3MntGceACXbdUc6eL8a4zEGaYWFmBKxlbZF1gIJ9AOrP7eC92TfLaCA4OOo7ZYIKb8EF/lv7AcobpBFdbgYoM48Aa7G9R861DC7FcXm5D1W+RzW448p+N6mm5xsv6/+RiYdludZe5eS94pUuep6QVBkO+WHN2wZ0/OXAR8JvOiZX4vzhgTN27WZagewRDNlFCpalfYPHeVnWJRUxWrFGjBFBYID2V9cnqd9vUDnFtOlz2bfxJkrRfnNVMo9+DUTRhhERXSqRsIe6RR4J4qToQKAw== deploy@herospark.com'
-end
-
-execute 'chmod 600 key' do 
-  command 'chmod 600 ~/.ssh/id_rsa'
-  command 'chmod 600 ~/.ssh/id_rsa.pub'
-end
-
-execute 'add key to agent' do 
-  command 'ssh-add ~/.ssh/id_rsa'
-end
-
 execute 'enter batman folder' do
   cwd 'batman'
 end
@@ -82,7 +14,7 @@ execute 'enter batman folder' do
 end
 
 execute 'run migrations' do
-  command 'npm run sequelize:create-migration" && npm run sequelize:migrate'
+  command 'npm run sequelize:migrate'
 end
 
 execute 'start app' do
