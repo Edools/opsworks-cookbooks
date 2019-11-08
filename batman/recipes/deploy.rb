@@ -4,6 +4,13 @@ Chef::Log.info("[Start] Deploy batman production")
 #   
 # end
 
+directory "/batman" do
+  mode 0755
+  owner 'root'
+  group 'root'
+  action :create
+end
+
 execute 'enter batman folder' do
   cwd deploy[:current_path]
 end
