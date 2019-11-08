@@ -9,11 +9,11 @@ include_recipe 'pm2::default'
 opsworks_deploy_dir do
   user deploy[:user]
   group deploy[:group]
-  path '/batman'
+  path '/var/www'
 end
 
 execute 'enter batman folder' do
-  cwd deploy[:current_path]
+  cwd '/var/www'
 end
 
 execute 'install project' do
