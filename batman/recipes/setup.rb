@@ -23,8 +23,4 @@ bash 'install batman dependencies' do
   code 'source /setup.sh'
 end
 
-execute 'create project folder' do
-  command 'mkdir batman'
-end
-
 Chef::Log.info("[End] Setup batman")

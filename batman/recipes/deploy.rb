@@ -5,7 +5,7 @@ Chef::Log.info("[Start] Deploy batman production")
 # end
 
 execute 'enter batman folder' do
-  cwd 'batman'
+  cwd deploy[:current_path]
 end
 
 execute 'install project' do
