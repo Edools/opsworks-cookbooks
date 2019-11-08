@@ -1,14 +1,15 @@
-Chef::Log.info("[Start] Deploy batman production")
+Chef::Log.info("[Start] Deploy batman production ")
 
 # http_request 'deploy production batman rollbar' do
 #   
 # end
 
-directory "/batman" do
-  mode 0755
-  owner 'root'
-  group 'root'
-  action :create
+include_recipe 'pm2::default'
+
+opsworks_deploy_dir do
+  user deploy[:user]
+  group deploy[:group]
+  path '/batman'
 end
 
 execute 'enter batman folder' do
