@@ -19,18 +19,18 @@ execute "update-upgrade" do
 end
 
 execute 'install project' do
-  command 'npm run build'
+  command 'sudo npm run build'
   action :run
 end
 
 execute 'run migrations' do
-  command 'npm run sequelize:migrate'
+  command 'sudo npm run sequelize:migrate'
   action :run
 end
 
 bash 'start app' do
   code 'export NODE_ENV=production'
-  code 'pm2 reload ecosystem.config.js --env production'
+  code 'sudo pm2 reload ecosystem.config.js --env production'
 end
 
 Chef::Log.info("[End] Deploy batman production")
