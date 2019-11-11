@@ -4,17 +4,17 @@ Chef::Log.info("[Start] Deploy batman production ")
 #   
 # end
 
-execute 'install project' do
-  command 'npm install && npm run build'
+bash 'install project' do
+  code 'npm install && npm run build'
 end
 
-execute 'run migrations' do
-  command 'npm run sequelize:migrate'
+bash 'run migrations' do
+  code 'npm run sequelize:migrate'
 end
 
-execute 'start app' do
-  command 'export NODE_ENV=production'
-  command 'pm2 reload ecosystem.config.js --env production'
+bash 'start app' do
+  code 'export NODE_ENV=production'
+  code 'pm2 reload ecosystem.config.js --env production'
 end
 
 Chef::Log.info("[End] Deploy batman production")
