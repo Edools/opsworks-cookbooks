@@ -4,12 +4,6 @@ Chef::Log.info("[Start] Deploy batman production ")
 #   
 # end
 
-opsworks_deploy_dir do
-  user deploy[:user]
-  group deploy[:group]
-  path '/var/www'
-end
-
 execute 'install project' do
   command 'npm install && npm run build'
 end
