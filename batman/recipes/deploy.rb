@@ -4,8 +4,6 @@ Chef::Log.info("[Start] Deploy batman production ")
 #   
 # end
 
-include_recipe 'pm2::default'
-
 opsworks_deploy_dir do
   user deploy[:user]
   group deploy[:group]
