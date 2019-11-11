@@ -4,12 +4,28 @@ Chef::Log.info("[Start] Deploy batman production ")
 #   
 # end
 
-bash 'install project' do
-  code 'npm install && npm run build'
+execute "update-upgrade" do
+  command "sudo apt-get update -y
+          sudo apt-get install nodejs -y
+          sudo apt-get install npm -y
+          sudo apt-get install python -y
+          sudo npm install n --global
+          sudo n 10.15.3
+          sudo npm install node-gyp --global
+          sudo npm install pm2 --global
+          sudo apt-get install libcap2-bin
+          sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``"
+  action :run
 end
 
-bash 'run migrations' do
-  code 'npm run sequelize:migrate'
+execute 'install project' do
+  command 'npm run build'
+  action :run
+end
+
+execute 'run migrations' do
+  command 'npm run sequelize:migrate'
+  action :run
 end
 
 bash 'start app' do
