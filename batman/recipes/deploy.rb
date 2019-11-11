@@ -12,10 +12,6 @@ opsworks_deploy_dir do
   path '/var/www'
 end
 
-execute 'enter batman folder' do
-  cwd '/var/www'
-end
-
 execute 'install project' do
   command 'npm install && npm run build'
 end
