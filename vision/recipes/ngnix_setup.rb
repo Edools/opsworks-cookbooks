@@ -6,14 +6,14 @@ file setup_sh_file do
   content '
     # setup.sh
     #! /bin/bash
-    sudo apt-get update
-    sudo apt-get install nginx
+    sudo apt-get -y update
+    sudo apt-get --yes --force-yes install nginx
     sudo mkdir /tmp/nginx_cache
     
-    sudo apt-get install software-properties-common
+    sudo apt-get --yes --force-yes install software-properties-common
     sudo add-apt-repository ppa:certbot/certbot
-    sudo apt-get update
-    sudo apt-get install python-certbot-nginx
+    sudo apt-get -y update
+    sudo apt-get install --yes --force-yes python-certbot-nginx
     sudo certbot --nginx
   '
 end

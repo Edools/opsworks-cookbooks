@@ -6,7 +6,7 @@ file setup_sh_file do
   content '
     # setup.sh
     #! /bin/bash
-    sudo apt-get install unzip
+    sudo apt-get install --yes --force-yes unzip
     wget https://s3.amazonaws.com/botpress-binaries/botpress-v12_8_2-linux-x64.zip
     unzip botpress-v12_8_2-linux-x64.zip
     
