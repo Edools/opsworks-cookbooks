@@ -6,8 +6,8 @@ file setup_sh_file do
   content '
     # setup.sh
     #! /bin/bash
-    sudo apt update
-    sudo apt install nginx
+    sudo apt-get update
+    sudo apt-get install nginx
     sudo mkdir /tmp/nginx_cache
     
     sudo apt-get install software-properties-common
