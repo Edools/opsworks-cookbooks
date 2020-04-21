@@ -22,7 +22,7 @@ file nginx_conf_file do
               default_type  application/octet-stream;
               
               # Disable sending the server identification
-              server_tokens off
+              server_tokens off;
               
               # Prevent displaying Botpress in an iframe (clickjacking protection)
               add_header X-Frame-Options SAMEORIGIN;
@@ -34,7 +34,7 @@ file nginx_conf_file do
               add_header X-XSS-Protection "1; mode=block";
               
               # Configure the cache for static assets
-              proxy_cache_path /sr/nginx_cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m use_temp_path=off;
+              proxy_cache_path /srv/nginx_cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m use_temp_path=off;
               
               # Set the max file size for uploads (make sure it is larger than the configured media size in botpress.config.json)
               client_max_body_size 10M;              
