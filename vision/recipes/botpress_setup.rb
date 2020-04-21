@@ -22,18 +22,18 @@ Chef::Log.info("[Start] Setup Botpress")
 # end
 
 execute "create botpress source dir" do
-  command("mkdir #{node[:botpress][:souce_dir]}")
+  command("mkdir #{node[:botpress][:source_dir]}")
   
   not_if do
-    ::File.directory?("#{node[:botpress][:souce_dir]}")
+    ::File.directory?("#{node[:botpress][:source_dir]}")
   end
 end
 
 execute "create botpress source dir to #{node[:botpress][:version]} version" do
-  command("mkdir #{node[:botpress][:souce_dir][:version]}")
+  command("mkdir #{node[:botpress][:source_dir][:version]}")
   
   not_if do
-    ::File.directory?("#{node[:botpress][:souce_dir][:version]}")
+    ::File.directory?("#{node[:botpress][:source_dir][:version]}")
   end
 end
 
