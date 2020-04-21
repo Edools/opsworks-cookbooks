@@ -41,7 +41,7 @@ migrate_command = ""
 #################
 
 deploy "#{deploy_to}" do
-  provider Chef::Provider::Deploy::TimestampedDeploy
+  provider Chef::Provider::Deploy.const_get("Timestamped")
   keep_releases keep_releases
   repository app[:app_source][:url]
   user user
