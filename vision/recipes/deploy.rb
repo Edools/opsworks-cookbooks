@@ -75,7 +75,7 @@ deploy "#{deploy_to}" do
   before_restart do
     
     execute "copy botpress binary" do
-      command "cp #{botpress_current_dire}/bp #{release_path}"
+      command "cp #{botpress_current_dir}/bp #{release_path}"
     end
     
   end
