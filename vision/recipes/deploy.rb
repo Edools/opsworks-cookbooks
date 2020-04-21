@@ -79,7 +79,7 @@ template "#{user_dir}/.ssh/id_dsa" do
   source 'ssh_key.erb'
   variables :ssh_key => app[:app_source][:ssh_key]
   not_if do
-    app[:app_source][:ssh_key].blank?
+    app[:app_source][:ssh_key].nil?
   end
 end
 
