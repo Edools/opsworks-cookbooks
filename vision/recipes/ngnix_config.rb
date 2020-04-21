@@ -65,7 +65,7 @@ end
 
 Chef::Log.info("Creating Ngnix config file")
 template "/etc/nginx/nginx.conf" do
-  source "ngnix.conf.erb"
+  source "nginx.conf.erb"
   mode "0755"
   owner "root"
   group "root"
