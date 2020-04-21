@@ -13,6 +13,7 @@ deploy_to = "/srv/www/#{app[:shortname]}"
 keep_releases = 5
 group = "www-data"
 user = "www-data"
+user_dir = "/var/www"
 
 # If a migration is to be run, the chef-client symlinks the database configuration 
 # file into the checkout (config/database.yml by default) and runs the migration command. 
@@ -40,6 +41,50 @@ migrate_command = ""
 
 #################
 
+# Create deploy destination folder
+directory "#{deploy_to}" do
+  group group
+  owner user
+  mode "0775"
+  action :create
+  recursive true
+end
+
+# create folder and file to SSH key
+directory "#{user_dir}/.ssh" do
+  owner user
+  group group
+  mode "0700"
+  action :create
+  recursive true
+end
+
+file "#{user_dir}/.ssh/config" do
+  owner user
+  group group
+  action :touch
+  mode '0600'
+end
+
+execute "echo 'StrictHostKeyChecking no' > #{user_dir}/.ssh/config" do
+  not_if "grep '^StrictHostKeyChecking no$' #{user_dir}/.ssh/config"
+end
+
+template "#{user_dir}/.ssh/id_dsa" do
+  action :create
+  mode '0600'
+  owner user
+  group group
+  cookbook "vision"
+  source 'ssh_key.erb'
+  variables :ssh_key => app[:app_source][:ssh_key]
+  not_if do
+    app[:app_source][:ssh_key].blank?
+  end
+end
+
+
+## Deploy the App
 deploy "#{deploy_to}" do
   provider Chef::Provider::Deploy.const_get("Timestamped")
   keep_releases keep_releases
