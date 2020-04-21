@@ -22,7 +22,7 @@ Chef::Log.info("[Start] Setup Botpress")
 # end
 
 execute "create botpress source dir" do
-  command("mkdir #{node[:botpress][:source_dir]}")
+  command "mkdir #{node[:botpress][:source_dir]}"
   
   not_if do
     ::File.directory?("#{node[:botpress][:source_dir]}")
@@ -30,11 +30,21 @@ execute "create botpress source dir" do
 end
 
 execute "create botpress source dir to #{node[:botpress][:version]} version" do
-  command("mkdir #{node[:botpress][:source_dir]}/#{node[:botpress][:version]}")
+  command "mkdir #{node[:botpress][:source_dir]}/#{node[:botpress][:version]}"
   
   not_if do
     ::File.directory?("#{node[:botpress][:source_dir]}/#{node[:botpress][:version]}")
   end
 end
+
+execute "download botpress binary to #{node[:botpress][:version]} version" do
+  command "wget https://s3.amazonaws.com/botpress-binaries/botpress-#{node[:botpress][:version]}-#{node[:botpress][:platform]}.zip"
+  cwd "#{node[:botpress][:source_dir]}/#{node[:botpress][:version]}"
+  
+  not_if do
+    ::File.exists?("#{node[:botpress][:source_dir]}/#{node[:botpress][:version]}/botpress-#{node[:botpress][:version]}-#{node[:botpress][:platform]}.zip")
+  end
+end
+
 
 Chef::Log.info("[End] Start BotPress ")
