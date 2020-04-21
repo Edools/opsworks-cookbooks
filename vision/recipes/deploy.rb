@@ -33,7 +33,7 @@ migrate_command = ""
 # Map files in a shared directory to the current release directory. The symbolic 
 # links for these files are created before any migration is run. Use parentheses ( ) 
 # around curly braces { } to ensure the contents within the curly braces are interpreted as a block and not as an empty Hash. Set to symlink_before_migrate({}) to prevent the creation of symbolic links.
-# symlink_before_migrate = {}
+symlink_before_migrate = {}
 
 # Map files in a shared directory to their paths in the current release directory. 
 # This property runs after create_dirs_before_symlink and purge_before_symlink.
@@ -97,7 +97,7 @@ deploy "#{deploy_to}" do
   environment app[:environment].to_hash  
   # purge_before_symlink purge_before_symlink
   # create_dirs_before_symlink create_dirs_before_symlink
-  # symlink_before_migrate symlink_before_migrate
+  symlink_before_migrate symlink_before_migrate
   # symlinks symlinks
   action :deploy
   scm_provider :git
