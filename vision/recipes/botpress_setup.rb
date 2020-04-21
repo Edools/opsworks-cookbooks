@@ -30,10 +30,10 @@ execute "create botpress source dir" do
 end
 
 execute "create botpress source dir to #{node[:botpress][:version]} version" do
-  command("mkdir #{node[:botpress][:source_dir][:version]}")
+  command("mkdir #{node[:botpress][:source_dir]}/#{node[:botpress][:version]}")
   
   not_if do
-    ::File.directory?("#{node[:botpress][:source_dir][:version]}")
+    ::File.directory?("#{node[:botpress][:source_dir]}/#{node[:botpress][:version]}")
   end
 end
 
