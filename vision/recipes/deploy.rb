@@ -12,7 +12,7 @@ app = search("aws_opsworks_app").first
 deploy_to = "/srv/www/#{app[:shortname]}"
 keep_releases = 5
 group = "www-data"
-user = "deploy"
+user = "www-data"
 
 # If a migration is to be run, the chef-client symlinks the database configuration 
 # file into the checkout (config/database.yml by default) and runs the migration command. 
