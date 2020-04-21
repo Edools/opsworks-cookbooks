@@ -9,11 +9,10 @@ app = search("aws_opsworks_app").first
 # Chef::Log.info("#{app[:environment][:EXTERNAL_URL]}")
 
 
-deploy_to = "/srv/www/#{app[:shortname]}"
-keep_releases = 5
-group = "www-data"
-user = "www-data"
-user_dir = "/var/www"
+deploy_to = "#{node[:deploy][:to]}/#{app[:shortname]}"
+keep_releases = node[:deploy][:keep_releases]
+group = node[:deploy][:group]
+user = node[:deploy][:user]
 
 # If a migration is to be run, the chef-client symlinks the database configuration 
 # file into the checkout (config/database.yml by default) and runs the migration command. 
@@ -49,40 +48,6 @@ directory "#{deploy_to}" do
   action :create
   recursive true
 end
-
-# create folder and file to SSH key
-directory "#{user_dir}/.ssh" do
-  owner user
-  group group
-  mode "0700"
-  action :create
-  recursive true
-end
-
-file "#{user_dir}/.ssh/config" do
-  owner user
-  group group
-  action :touch
-  mode '0600'
-end
-
-execute "echo 'StrictHostKeyChecking no' > #{user_dir}/.ssh/config" do
-  not_if "grep '^StrictHostKeyChecking no$' #{user_dir}/.ssh/config"
-end
-
-template "#{user_dir}/.ssh/id_dsa" do
-  action :create
-  mode '0600'
-  owner user
-  group group
-  cookbook "vision"
-  source 'ssh_key.erb'
-  variables :ssh_key => app[:app_source][:ssh_key]
-  not_if do
-    app[:app_source][:ssh_key].nil?
-  end
-end
-
 
 ## Deploy the App
 deploy "#{deploy_to}" do
@@ -165,3 +130,5 @@ deploy "#{deploy_to}" do
   #   run_callback_from_file("#{release_path}/deploy/before_migrate.rb")
   # end
 end
+
+Chef::Log.info("[END] Deploy Vision Bot")
