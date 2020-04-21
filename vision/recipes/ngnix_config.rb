@@ -4,6 +4,10 @@ nginx_conf_file = '/etc/nginx/nginx.conf'
 
 execute "move nginx configuration file to tmp" do
   command("mv #{nginx_conf_file} /etc/nginx/nginx.conf.tmp")
+  
+  only_if do
+    ::File.exists?("#{nginx_conf_file}")
+  end
 end
 
 # file nginx_conf_file do
