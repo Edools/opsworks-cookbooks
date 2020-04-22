@@ -85,11 +85,14 @@ deploy "#{deploy_to}" do
     execute "copy storage dir" do
       command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
     end
+    execute "stop Botpress" do
+      command "pm2 stop bp"
+    end
   end
   
   after_restart do
     execute "start Botpress" do
-      command "#{release_path}/bp &"
+      command "pm2 start #{release_path}/bp"
     end
   end
 end
