@@ -9,7 +9,7 @@ file setup_sh_file do
     #! /bin/bash
     sudo apt-get --yes --force-yes install npm
     sudo npm install -g pm2
-    sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu
+    sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u root --hp /srv/www
   '
 end
 
