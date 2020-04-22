@@ -90,15 +90,14 @@ deploy "#{deploy_to}" do
       user user
     end
     execute "stop Botpress" do
-      command "pm2 stop bp 2> /dev/null || true"
+      command "pm2 stop bp"
+      # command "pm2 stop bp 2> /dev/null || true"
     end
   end
   
   after_restart do
     Chef::Log.info("ENV VARS before start botpress")
-    execute "env vars" do
-      command "printenv"
-    end
+    Chef::Log.info("ENV VARS: #{ENV['DATABASE_URL']}")
     
     execute "start Botpress" do
       command "pm2 start #{release_path}/bp"
