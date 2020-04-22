@@ -73,7 +73,6 @@ deploy "#{deploy_to}" do
 
   
   before_restart do
-    
     execute "copy botpress binary" do
       command "cp #{botpress_current_dir}/bp #{release_path}"
     end
@@ -86,67 +85,13 @@ deploy "#{deploy_to}" do
     execute "copy storage dir" do
       command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
     end
-    
   end
-
-  # before_migrate do
-  #   link_tempfiles_to_current_release
-  # 
-  #   if deploy[:application_type] == 'rails'
-  #     if deploy[:auto_bundle_on_deploy]
-  #       OpsWorks::RailsConfiguration.bundle(application, node[:deploy][application], release_path)
-  #     end
-  # 
-  #     node.default[:deploy][application][:database][:adapter] = OpsWorks::RailsConfiguration.determine_database_adapter(
-  #       application,
-  #       node[:deploy][application],
-  #       release_path,
-  #       :force => node[:force_database_adapter_detection],
-  #       :consult_gemfile => node[:deploy][application][:auto_bundle_on_deploy]
-  #     )
-  #     template "#{node[:deploy][application][:deploy_to]}/shared/config/database.yml" do
-  #       cookbook "rails"
-  #       source "database.yml.erb"
-  #       mode "0660"
-  #       owner node[:deploy][application][:user]
-  #       group node[:deploy][application][:group]
-  #       variables(
-  #         :database => node[:deploy][application][:database],
-  #         :environment => node[:deploy][application][:rails_env]
-  #       )
-  # 
-  #       only_if do
-  #         deploy[:database][:host].present?
-  #       end
-  #     end.run_action(:create)
-  #   elsif deploy[:application_type] == 'aws-flow-ruby'
-  #     OpsWorks::RailsConfiguration.bundle(application, node[:deploy][application], release_path)
-  #   elsif deploy[:application_type] == 'php'
-  #     template "#{node[:deploy][application][:deploy_to]}/shared/config/opsworks.php" do
-  #       cookbook 'php'
-  #       source 'opsworks.php.erb'
-  #       mode '0660'
-  #       owner node[:deploy][application][:user]
-  #       group node[:deploy][application][:group]
-  #       variables(
-  #         :database => node[:deploy][application][:database],
-  #         :memcached => node[:deploy][application][:memcached],
-  #         :layers => node[:opsworks][:layers],
-  #         :stack_name => node[:opsworks][:stack][:name]
-  #       )
-  #       only_if do
-  #         File.exists?("#{node[:deploy][application][:deploy_to]}/shared/config")
-  #       end
-  #     end
-  #   elsif deploy[:application_type] == 'nodejs'
-  #     if deploy[:auto_npm_install_on_deploy]
-  #       OpsWorks::NodejsConfiguration.npm_install(application, node[:deploy][application], release_path, node[:opsworks_nodejs][:npm_install_options])
-  #     end
-  #   end
-  # 
-  #   # run user provided callback file
-  #   run_callback_from_file("#{release_path}/deploy/before_migrate.rb")
-  # end
+  
+  after_restart do
+    execute "start Botpress" do
+      command "#{release_path}/bp"
+    end
+  end
 end
 
 Chef::Log.info("[END] Deploy Vision Bot")
