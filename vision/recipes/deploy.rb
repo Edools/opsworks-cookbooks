@@ -77,6 +77,15 @@ deploy "#{deploy_to}" do
     execute "copy botpress binary" do
       command "cp #{botpress_current_dir}/bp #{release_path}"
     end
+    execute "copy bindings dir" do
+      command "cp -R #{botpress_current_dir}/bindings #{release_path}"
+    end
+    execute "copy modules dir" do
+      command "cp -R #{botpress_current_dir}/modules #{release_path}"
+    end
+    execute "copy storage dir" do
+      command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
+    end
     
   end
 
