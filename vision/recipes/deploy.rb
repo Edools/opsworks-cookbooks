@@ -89,7 +89,7 @@ deploy "#{deploy_to}" do
   
   after_restart do
     execute "start Botpress" do
-      command "#{release_path}/bp"
+      command "#{release_path}/bp &"
     end
   end
 end
