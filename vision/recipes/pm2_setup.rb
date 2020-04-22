@@ -1,6 +1,7 @@
 Chef::Log.info("[Start] Setup PM2")
 
 setup_sh_file = '/setup_pm2.sh'
+user = node[:deploy][:user]
 
 file setup_sh_file do
   content '
@@ -13,6 +14,7 @@ end
 
 bash 'setup ngnix' do
   code 'source /setup_pm2.sh'
+  user user
 end
 
 Chef::Log.info("[End] Setup PM2")
