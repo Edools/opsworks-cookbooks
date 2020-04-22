@@ -75,25 +75,30 @@ deploy "#{deploy_to}" do
   before_restart do
     execute "copy botpress binary" do
       command "cp #{botpress_current_dir}/bp #{release_path}"
+      user user
     end
     execute "copy bindings dir" do
       command "cp -R #{botpress_current_dir}/bindings #{release_path}"
+      user user
     end
     execute "copy modules dir" do
       command "cp -R #{botpress_current_dir}/modules #{release_path}"
+      user user
     end
     execute "copy storage dir" do
       command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
+      user user
     end
     execute "stop Botpress" do
       command "pm2 stop bp 2> /dev/null || true"
-      # only_if { ::File.exists?("~/.pm2/pids/bp-0.pid") }
+      user user
     end
   end
   
   after_restart do
     execute "start Botpress" do
       command "pm2 start #{release_path}/bp"
+      user user
     end
   end
 end
