@@ -90,7 +90,7 @@ deploy "#{deploy_to}" do
       user user
     end
     execute "stop Botpress" do
-      command "pm2 stop bp"
+      command "pm2 stop bp 2> /dev/null || true"
     end
   end
   
