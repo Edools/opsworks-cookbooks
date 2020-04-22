@@ -95,6 +95,11 @@ deploy "#{deploy_to}" do
   end
   
   after_restart do
+    Chef::Log.info("ENV VARS before start botpress")
+    execute "env vars" do
+      command "printenv"
+    end
+    
     execute "start Botpress" do
       command "pm2 start #{release_path}/bp"
     end
