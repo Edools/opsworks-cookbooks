@@ -14,10 +14,7 @@ http {
   
   # Disable sending the server identification
   server_tokens off;
-  
-  # Prevent displaying Botpress in an iframe (clickjacking protection)
-  add_header X-Frame-Options SAMEORIGIN;
-  
+    
   # Prevent browsers from detecting the mimetype if not sent by the server.
   add_header X-Content-Type-Options nosniff;
   
@@ -40,6 +37,14 @@ http {
     server_name  localhost;
     if ($http_x_forwarded_proto = 'http'){
       return 301 https://$host$request_uri;
+    }
+    
+    # We need to add specific headers so the websockets can be set up through the reverse proxy
+    location /socket.io/ {
+      proxy_pass http://localhost:3000/socket.io/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "Upgrade";
     }
 
     # All other requests should be directed to the server
