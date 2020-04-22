@@ -98,6 +98,9 @@ deploy "#{deploy_to}" do
     execute "start Botpress" do
       command "pm2 start #{release_path}/bp"
     end
+    execute "restart Nginx" do
+      command "service nginx restart"
+    end
   end
 end
 
