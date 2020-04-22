@@ -14,7 +14,7 @@ end
 
 bash 'setup ngnix' do
   code 'source /setup_pm2.sh'
-  user user
+  # user user
 end
 
 Chef::Log.info("[End] Setup PM2")

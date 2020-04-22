@@ -90,14 +90,14 @@ deploy "#{deploy_to}" do
       user user
     end
     execute "stop Botpress" do
-      command "pm2 stop bp 2> /dev/null || true"
+      command "sudo pm2 stop bp 2> /dev/null || true"
       user user
     end
   end
   
   after_restart do
     execute "start Botpress" do
-      command "pm2 start #{release_path}/bp"
+      command "sudo pm2 start #{release_path}/bp"
       user user
     end
   end
