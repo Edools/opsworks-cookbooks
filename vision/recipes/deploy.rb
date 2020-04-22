@@ -86,7 +86,8 @@ deploy "#{deploy_to}" do
       command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
     end
     execute "stop Botpress" do
-      command "pm2 stop bp"
+      command "pm2 stop bp 2> /dev/null || true"
+      # only_if { ::File.exists?("~/.pm2/pids/bp-0.pid") }
     end
   end
   
