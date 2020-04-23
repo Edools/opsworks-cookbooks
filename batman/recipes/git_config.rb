@@ -31,7 +31,7 @@ template "#{user_dir}/.ssh/id_dsa" do
   mode '0600'
   owner user
   group group
-  cookbook "vision"
+  cookbook "batman"
   source 'ssh_key.erb'
   variables :ssh_key => app[:app_source][:ssh_key]
   not_if do
