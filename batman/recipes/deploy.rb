@@ -14,8 +14,6 @@ keep_releases = node[:deploy][:keep_releases]
 group = node[:deploy][:group]
 user = node[:deploy][:user]
 
-botpress_current_dir = "#{node[:botpress][:source_dir]}/#{node[:botpress][:version]}"
-
 # If a migration is to be run, the chef-client symlinks the database configuration 
 # file into the checkout (config/database.yml by default) and runs the migration command. 
 # For a Ruby on Rails application, the migration_command is usually set to rake db:migrate.
