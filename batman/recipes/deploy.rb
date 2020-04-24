@@ -66,13 +66,11 @@ deploy "#{deploy_to}" do
   before_migrate do
     execute "Install project dependencies" do
       command "yarn install --pure-lockfile"
-      user user
       cwd release_path
     end
     
     execute "Build project" do
       command "yarn build"
-      user user
       cwd release_path
     end
   end
