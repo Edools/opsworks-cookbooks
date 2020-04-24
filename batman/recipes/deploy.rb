@@ -2,13 +2,6 @@ Chef::Log.info("[Start] Deploy Batman")
 
 app = search("aws_opsworks_app").first
 
-# Chef::Log.info("#{app[:app_source][:ssh_key]}")
-# Chef::Log.info("[Start] Vision bot deploy - URL")
-# Chef::Log.info("#{app[:app_source][:url]}")
-# Chef::Log.info("[Start] Vision bot deploy- VAR")
-# Chef::Log.info("#{app[:environment][:EXTERNAL_URL]}")
-
-
 deploy_to = "#{node[:deploy][:to]}/#{app[:shortname]}"
 keep_releases = node[:deploy][:keep_releases]
 group = node[:deploy][:group]
@@ -50,56 +43,56 @@ directory "#{deploy_to}" do
 end
 
 ## Deploy the App
-# deploy "#{deploy_to}" do
-#   provider Chef::Provider::Deploy.const_get("Timestamped")
-#   keep_releases keep_releases
-#   repository app[:app_source][:url]
-#   user user
-#   group group
-#   revision app[:app_source][:revision]
-#   migrate migration
-#   migration_command migrate_command
-#   environment app[:environment].to_hash  
-#   # purge_before_symlink purge_before_symlink
-#   # create_dirs_before_symlink create_dirs_before_symlink
-#   symlink_before_migrate symlink_before_migrate
-#   # symlinks symlinks
-#   action :deploy
-#   scm_provider :git
-#   enable_submodules true
-#   shallow_clone false
-# 
-# 
-#   before_restart do
-#     execute "copy botpress binary" do
-#       command "cp #{botpress_current_dir}/bp #{release_path}"
-#       user user
-#     end
-#     execute "copy bindings dir" do
-#       command "cp -R #{botpress_current_dir}/bindings #{release_path}"
-#       user user
-#     end
-#     execute "copy modules dir" do
-#       command "cp -R #{botpress_current_dir}/modules #{release_path}"
-#       user user
-#     end
-#     execute "copy storage dir" do
-#       command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
-#       user user
-#     end
-#     execute "stop Batman" do
-#       command "pm2 stop bp 2> /dev/null || true"
-#     end
-#   end
-# 
-#   after_restart do    
-#     execute "start Batman" do
-#       command "pm2 start #{release_path}/bp"
-#     end
-#     execute "restart Nginx" do
-#       command "service nginx restart"
-#     end
-#   end
-# end
+deploy "#{deploy_to}" do
+  provider Chef::Provider::Deploy.const_get("Timestamped")
+  keep_releases keep_releases
+  repository app[:app_source][:url]
+  user user
+  group group
+  revision app[:app_source][:revision]
+  migrate migration
+  migration_command migrate_command
+  environment app[:environment].to_hash  
+  # purge_before_symlink purge_before_symlink
+  # create_dirs_before_symlink create_dirs_before_symlink
+  symlink_before_migrate symlink_before_migrate
+  # symlinks symlinks
+  action :deploy
+  scm_provider :git
+  enable_submodules true
+  shallow_clone false
+
+
+  # before_restart do
+  #   execute "copy botpress binary" do
+  #     command "cp #{botpress_current_dir}/bp #{release_path}"
+  #     user user
+  #   end
+  #   execute "copy bindings dir" do
+  #     command "cp -R #{botpress_current_dir}/bindings #{release_path}"
+  #     user user
+  #   end
+  #   execute "copy modules dir" do
+  #     command "cp -R #{botpress_current_dir}/modules #{release_path}"
+  #     user user
+  #   end
+  #   execute "copy storage dir" do
+  #     command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
+  #     user user
+  #   end
+  #   execute "stop Batman" do
+  #     command "pm2 stop bp 2> /dev/null || true"
+  #   end
+  # end
+  # 
+  # after_restart do    
+  #   execute "start Batman" do
+  #     command "pm2 start #{release_path}/bp"
+  #   end
+  #   execute "restart Nginx" do
+  #     command "service nginx restart"
+  #   end
+  # end
+end
 
 Chef::Log.info("[END] Deploy Batman")

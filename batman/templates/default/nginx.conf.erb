@@ -40,12 +40,12 @@ http {
     }
     
     # We need to add specific headers so the websockets can be set up through the reverse proxy
-    location /socket.io/ {
-      proxy_pass http://localhost:3000/socket.io/;
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "Upgrade";
-    }
+#    location /socket.io/ {
+#      proxy_pass http://localhost:3000/socket.io/;
+#      proxy_http_version 1.1;
+#      proxy_set_header Upgrade $http_upgrade;
+#      proxy_set_header Connection "Upgrade";
+#    }
 
     # All other requests should be directed to the server
     location / {

@@ -2,13 +2,6 @@ Chef::Log.info("[Start] Deploy Vision Bot")
 
 app = search("aws_opsworks_app").first
 
-# Chef::Log.info("#{app[:app_source][:ssh_key]}")
-# Chef::Log.info("[Start] Vision bot deploy - URL")
-# Chef::Log.info("#{app[:app_source][:url]}")
-# Chef::Log.info("[Start] Vision bot deploy- VAR")
-# Chef::Log.info("#{app[:environment][:EXTERNAL_URL]}")
-
-
 deploy_to = "#{node[:deploy][:to]}/#{app[:shortname]}"
 keep_releases = node[:deploy][:keep_releases]
 group = node[:deploy][:group]
