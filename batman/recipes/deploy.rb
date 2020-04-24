@@ -63,6 +63,21 @@ deploy "#{deploy_to}" do
   shallow_clone false
 
 
+  before_migrate do
+    execute "Install project dependencies" do
+      command "yarn install --pure-lockfile"
+      user user
+      cwd release_path
+    end
+    
+    execute "Build project" do
+      command "yarn build"
+      user user
+      cwd release_path
+    end
+  end
+  
+  
   # before_restart do
   #   execute "copy botpress binary" do
   #     command "cp #{botpress_current_dir}/bp #{release_path}"
