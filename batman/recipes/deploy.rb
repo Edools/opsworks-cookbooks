@@ -11,7 +11,7 @@ user = node[:deploy][:user]
 # file into the checkout (config/database.yml by default) and runs the migration command. 
 # For a Ruby on Rails application, the migration_command is usually set to rake db:migrate.
 migration = false
-migrate_command = ""
+migrate_command = "yarn sequelize:migrate"
 
 # An array of directories (relative to the application root) to be removed from 
 # a checkout before symbolic links are created. This attribute runs before create_dirs_before_symlink 
@@ -53,10 +53,7 @@ deploy "#{deploy_to}" do
   migrate migration
   migration_command migrate_command
   environment app[:environment].to_hash  
-  # purge_before_symlink purge_before_symlink
-  # create_dirs_before_symlink create_dirs_before_symlink
   symlink_before_migrate symlink_before_migrate
-  # symlinks symlinks
   action :deploy
   scm_provider :git
   enable_submodules true
@@ -70,42 +67,24 @@ deploy "#{deploy_to}" do
     end
     
     execute "Build project" do
-      command "yarn build"
+      command "yarn build:webpack"
       cwd release_path
     end
   end
   
+  before_restart do
+    execute "stop Batman" do
+      command "pm2 stop batman 2> /dev/null || true"
+    end
+  end
   
-  # before_restart do
-  #   execute "copy botpress binary" do
-  #     command "cp #{botpress_current_dir}/bp #{release_path}"
-  #     user user
-  #   end
-  #   execute "copy bindings dir" do
-  #     command "cp -R #{botpress_current_dir}/bindings #{release_path}"
-  #     user user
-  #   end
-  #   execute "copy modules dir" do
-  #     command "cp -R #{botpress_current_dir}/modules #{release_path}"
-  #     user user
-  #   end
-  #   execute "copy storage dir" do
-  #     command "cp -R #{botpress_current_dir}/data/storage #{release_path}/data"
-  #     user user
-  #   end
-  #   execute "stop Batman" do
-  #     command "pm2 stop bp 2> /dev/null || true"
-  #   end
-  # end
-  # 
-  # after_restart do    
-  #   execute "start Batman" do
-  #     command "pm2 start #{release_path}/bp"
-  #   end
-  #   execute "restart Nginx" do
-  #     command "service nginx restart"
-  #   end
-  # end
+  after_restart do
+    execute "start Batman" do
+      command "NODE_ENV=production pm2 start index.js --name batman"
+      cwd release_path
+    end
+  end
+  
 end
 
 Chef::Log.info("[END] Deploy Batman")
