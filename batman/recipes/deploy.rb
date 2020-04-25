@@ -59,7 +59,7 @@ deploy "#{deploy_to}" do
   scm_provider :git
   enable_submodules true
   shallow_clone false
-
+  
 
   before_migrate do
     execute "Install project dependencies" do

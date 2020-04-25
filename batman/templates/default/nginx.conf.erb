@@ -12,6 +12,10 @@ http {
   include       /etc/nginx/mime.types;
   default_type  application/octet-stream;
   
+  log_format compression '$remote_addr - $remote_user [$time_local] '
+                           '"$request" $status $body_bytes_sent '
+                           '"$http_referer" "$http_user_agent" "$gzip_ratio"';
+  
   # Disable sending the server identification
   server_tokens off;
     
@@ -28,8 +32,8 @@ http {
   client_max_body_size 60M;
 
   access_log	/var/log/nginx/access.log;
-  access_log off;
-  error_log  /var/log/nginx/error.log;
+  # access_log off;
+  error_log  /var/log/nginx/error.log warn;
   
   sendfile on;
   tcp_nopush on;
@@ -56,6 +60,8 @@ http {
     if ($http_x_forwarded_proto = 'http'){
       return 301 https://$host$request_uri;
     }
+    
+    access_log	/var/log/nginx/access.log compression;
 
     # All other requests should be directed to the server
     location / {
