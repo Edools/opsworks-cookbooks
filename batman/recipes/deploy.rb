@@ -92,6 +92,9 @@ deploy "#{deploy_to}" do
       command "pm2 start index.js --name batman"
       cwd release_path
     end
+    execute "restart Nginx" do
+      command "service nginx restart"
+    end
   end
   
 end
