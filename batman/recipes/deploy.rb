@@ -12,7 +12,7 @@ user = node[:deploy][:user]
 # file into the checkout (config/database.yml by default) and runs the migration command. 
 # For a Ruby on Rails application, the migration_command is usually set to rake db:migrate.
 migration = false
-migrate_command = "yarn sequelize:migrate"
+migrate_command = ""
 
 # An array of directories (relative to the application root) to be removed from 
 # a checkout before symbolic links are created. This attribute runs before create_dirs_before_symlink 
@@ -82,9 +82,9 @@ deploy "#{deploy_to}" do
     execute "stop Batman" do
       command "pm2 stop batman 2> /dev/null || true"
     end
-    execute "delete Batman process registry" do
-      command "pm2 delete batman 2> /dev/null || true"
-    end
+    # execute "delete Batman process registry" do
+    #   command "pm2 delete batman 2> /dev/null || true"
+    # end
   end
   
   after_restart do
