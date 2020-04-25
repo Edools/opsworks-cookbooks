@@ -81,6 +81,9 @@ deploy "#{deploy_to}" do
     execute "stop Batman" do
       command "pm2 stop batman 2> /dev/null || true"
     end
+    execute "delete Batman process registry" do
+      command "pm2 delete batman 2> /dev/null || true"
+    end
   end
   
   after_restart do
