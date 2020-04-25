@@ -13,19 +13,19 @@ http {
   default_type  application/octet-stream;
   
   # Disable sending the server identification
-  # server_tokens off;
+  server_tokens off;
     
   # Prevent browsers from detecting the mimetype if not sent by the server.
-  # add_header X-Content-Type-Options nosniff;
+  add_header X-Content-Type-Options nosniff;
   
   # Force enable the XSS filter for the website, in case it was disabled manually
-  # add_header X-XSS-Protection "1; mode=block";
+  add_header X-XSS-Protection "1; mode=block";
   
   # Configure the cache for static assets
-  # proxy_cache_path /srv/nginx_cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m use_temp_path=off;
+  proxy_cache_path /srv/nginx_cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m use_temp_path=off;
   
-  # Set the max file size for uploads (make sure it is larger than the configured media size in botpress.config.json)
-  # client_max_body_size 10M;              
+  # Set the max file size for uploads
+  client_max_body_size 60M;
 
   access_log	/var/log/nginx/access.log;
   access_log off;
@@ -38,8 +38,6 @@ http {
   keepalive_timeout  65;
   keepalive_requests 100000;
 
-  client_max_body_size 60M;
-  
   gzip  on;
   gzip_static  on;
   gzip_http_version 1.0;
@@ -49,28 +47,24 @@ http {
   gzip_vary on;
   gzip_disable "MSIE [1-6].(?!.*SV1)";
   
-  server_names_hash_bucket_size 64;
-  
+  server_names_hash_bucket_size 64;  
   
   # Redirect requests to the server
   server {
     listen 80 default;
     server_name  localhost;
-#    if ($http_x_forwarded_proto = 'http'){
-#      return 301 https://$host$request_uri;
-#    }
-    
-    # We need to add specific headers so the websockets can be set up through the reverse proxy
-#    location /socket.io/ {
-#      proxy_pass http://localhost:3000/socket.io/;
-#      proxy_http_version 1.1;
-#      proxy_set_header Upgrade $http_upgrade;
-#      proxy_set_header Connection "Upgrade";
-#    }
+    if ($http_x_forwarded_proto = 'http'){
+      return 301 https://$host$request_uri;
+    }
 
     # All other requests should be directed to the server
     location / {
       proxy_pass <%= node[:ngnix][:proxy_pass] %>;
+      
+      # We need to add specific headers so the websockets can be set up through the reverse proxy
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "Upgrade";
     }
   }
 
