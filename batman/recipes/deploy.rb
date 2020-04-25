@@ -11,7 +11,7 @@ user = node[:deploy][:user]
 # If a migration is to be run, the chef-client symlinks the database configuration 
 # file into the checkout (config/database.yml by default) and runs the migration command. 
 # For a Ruby on Rails application, the migration_command is usually set to rake db:migrate.
-migration = true
+migration = false
 migrate_command = "yarn sequelize:migrate"
 
 # An array of directories (relative to the application root) to be removed from 
