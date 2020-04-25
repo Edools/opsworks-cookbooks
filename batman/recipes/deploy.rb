@@ -88,10 +88,6 @@ deploy "#{deploy_to}" do
   end
   
   after_restart do
-    execute "/usr/local/bin/environment.sh" do
-      action :run
-    end
-    
     execute "start Batman" do
       command "NODE_ENV=production pm2 start index.js --name batman"
       cwd release_path
