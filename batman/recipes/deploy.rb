@@ -72,10 +72,10 @@ deploy "#{deploy_to}" do
       cwd release_path
     end
     
-    # execute "Migrate database" do
-    #   command "yarn sequelize:migrate"
-    #   cwd release_path
-    # end
+    execute "Migrate database" do
+      command "yarn sequelize:migrate"
+      cwd release_path
+    end
   end
   
   before_restart do
