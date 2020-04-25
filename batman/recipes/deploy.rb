@@ -79,9 +79,9 @@ deploy "#{deploy_to}" do
   end
   
   before_restart do
-    # execute "stop Batman" do
-    #   command "pm2 stop batman 2> /dev/null || true"
-    # end
+    execute "stop Batman" do
+      command "pm2 stop batman 2> /dev/null || true"
+    end
     # execute "delete Batman process registry" do
     #   command "pm2 delete batman 2> /dev/null || true"
     # end
@@ -92,7 +92,6 @@ deploy "#{deploy_to}" do
       command "NODE_ENV=production pm2 start index.js --name batman"
       # command "yarn start"
       cwd release_path
-      live_stream true
     end
     execute "restart Nginx" do
       command "service nginx restart"
