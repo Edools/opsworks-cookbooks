@@ -88,9 +88,12 @@ deploy "#{deploy_to}" do
   end
   
   after_restart do
+    execute "/usr/local/bin/environment.sh" do
+      action :run
+    end
+    
     execute "start Batman" do
       command "NODE_ENV=production pm2 start index.js --name batman"
-      # command "yarn start"
       cwd release_path
     end
     execute "restart Nginx" do
