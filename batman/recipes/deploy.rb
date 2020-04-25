@@ -5,7 +5,8 @@ app = search("aws_opsworks_app").first
 deploy_to = "#{node[:deploy][:to]}/#{app[:shortname]}"
 keep_releases = node[:deploy][:keep_releases]
 group = node[:deploy][:group]
-user = node[:deploy][:user]
+# user = node[:deploy][:user]
+user = "root"
 
 # If a migration is to be run, the chef-client symlinks the database configuration 
 # file into the checkout (config/database.yml by default) and runs the migration command. 
@@ -72,7 +73,7 @@ deploy "#{deploy_to}" do
     end
     
     # execute "Migrate database" do
-    #   command "NODE_ENV=production yarn sequelize:migrate"
+    #   command "yarn sequelize:migrate"
     #   cwd release_path
     # end
   end
