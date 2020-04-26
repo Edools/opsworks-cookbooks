@@ -4,9 +4,9 @@ app = search("aws_opsworks_app").first
 user = node[:deploy][:user]
 
 # Chef::Log.info("Setting environment variables for current process")
-app[:environment].each do |name, value|
-  ENV["#{name}"] = "#{value}"
-end
+# app[:environment].each do |name, value|
+#   ENV["#{name}"] = "#{value}"
+# end
 
 Chef::Log.info("Writing variables to /etc/environment to have them after restart")
 template "/etc/environment" do

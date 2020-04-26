@@ -71,13 +71,7 @@ deploy "#{deploy_to}" do
       command "NODE_ENV=production yarn build:webpack"
       cwd release_path
     end
-    
-    Chef::Log.info("[Start] Deploy Log Vars")
-    Chef::Log.info("#{ENV['NODE_ENV']}")
-    Chef::Log.info("#{ENV['DATABASE_URL']}")
-    Chef::Log.info("#{app[:environment]}")
-    Chef::Log.info("[Fim] Deploy Log Vars")
-    
+        
     execute "Migrate database" do
       command "NODE_ENV=#{app[:environment]['NODE_ENV']} DATABASE_URL=#{app[:environment]['DATABASE_URL']} yarn sequelize:migrate"
       cwd release_path
