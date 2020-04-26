@@ -79,7 +79,7 @@ deploy "#{deploy_to}" do
     Chef::Log.info("[Fim] Deploy Log Vars")
     
     execute "Migrate database" do
-      command "/usr/local/bin/environment.sh && yarn sequelize:migrate"
+      command "NODE_ENV=#{app[:environment]['NODE_ENV']} DATABASE_URL=#{app[:environment]['DATABASE_URL']} yarn sequelize:migrate"
       cwd release_path
     end
   end
