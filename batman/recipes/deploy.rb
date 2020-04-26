@@ -63,17 +63,17 @@ deploy "#{deploy_to}" do
 
   before_migrate do
     execute "Install project dependencies" do
-      command "yarn install --pure-lockfile"
+      command "NODE_ENV=production yarn install --pure-lockfile"
       cwd release_path
     end
     
     execute "Build project" do
-      command "yarn build:webpack"
+      command "NODE_ENV=production yarn build:webpack"
       cwd release_path
     end
     
     execute "Migrate database" do
-      command "yarn sequelize:migrate"
+      command "NODE_ENV=production yarn sequelize:migrate"
       cwd release_path
     end
   end
