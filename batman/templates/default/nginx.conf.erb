@@ -57,9 +57,9 @@ http {
   server {
     listen 80 default;
     server_name  localhost;
-    if ($http_x_forwarded_proto = 'http'){
-      return 301 https://$host$request_uri;
-    }
+#    if ($http_x_forwarded_proto = 'http'){
+#      return 301 https://$host$request_uri;
+#    }
     
     access_log	/var/log/nginx/access.log compression;
 
