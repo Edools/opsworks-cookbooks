@@ -92,9 +92,9 @@ deploy "#{deploy_to}" do
       command "NODE_ENV=production pm2 start index.js --name batman"
       cwd release_path
     end
-    execute "restart Nginx" do
-      command "service nginx restart"
-    end
+    # execute "restart Nginx" do
+    #   command "service nginx restart"
+    # end
   end
   
 end
