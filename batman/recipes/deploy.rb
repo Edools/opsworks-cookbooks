@@ -73,7 +73,7 @@ deploy "#{deploy_to}" do
     end
     
     execute "Migrate database" do
-      command "NODE_ENV=production yarn sequelize:migrate"
+      command "/usr/local/bin/environment.sh && yarn sequelize:migrate"
       cwd release_path
     end
   end
