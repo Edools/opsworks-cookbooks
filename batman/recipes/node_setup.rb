@@ -6,7 +6,7 @@ file setup_sh_file do
   content '
     # setup.sh
     #! /bin/bash
-    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
     sudo apt-get -y update
     sudo apt-get install -y nodejs
   '
