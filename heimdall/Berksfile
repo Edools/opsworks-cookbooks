@@ -1,7 +1,7 @@
 source 'https://supermarket.chef.io'
 
-cookbook 'opsworks_ruby', '1.4.0'
-cookbook 'packages', '~> 1.0.0'
-cookbook 'seven_zip', '= 2.0.2'
+cookbook 'opsworks_ruby', '1.18.1'
+# cookbook 'packages', '~> 1.0.0'
+# cookbook 'seven_zip', '= 2.0.2'
 
 metadata

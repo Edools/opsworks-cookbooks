@@ -19,5 +19,5 @@ chef_version '12.13.37' if respond_to?(:chef_version)
 #
 # source_url 'https://github.com/<insert_org_here>/heimdall'
 
-depends 'opsworks_ruby', '1.4.0'
-depends 'packages', '~> 1.0.0'
+depends 'opsworks_ruby', '1.18.1'
+# depends 'packages', '~> 1.0.0'
