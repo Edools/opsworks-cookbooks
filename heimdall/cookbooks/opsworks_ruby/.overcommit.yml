@@ -1,0 +1,71 @@
+---
+PreCommit:
+  ALL:
+    on_warn: fail    # Treat all warnings as failures
+    exclude:
+      - test/integration/repos/**/*
+  AuthorEmail:
+    enabled: true
+    required: false
+  AuthorName:
+    enabled: true
+    required: false
+  BrokenSymlinks:
+    enabled: true
+  BundleAudit:
+    enabled: true
+  BundleCheck:
+    enabled: true
+  CaseConflicts:
+    enabled: true
+  Fasterer:
+    enabled: true
+  FixMe:
+    enabled: true
+    exclude:
+      - RELEASING.md
+  Foodcritic:
+    enabled: true
+    flags: ['-t', '~chef13', '-t', '~chef14', '-t', '~chef15', '-t', '~chef16']
+  HardTabs:
+    enabled: true
+    exclude:
+      - docs/Makefile
+      - test/integration/repos/**/*
+  JsonSyntax:
+    enabled: true
+  LocalPathsInGemfile:
+    enabled: true
+  Mdl:
+    enabled: true
+    exclude:
+      - CHANGELOG.md
+      - .github/ISSUE_TEMPLATE.md
+  MergeConflicts:
+    enabled: true
+  RuboCop:
+    enabled: true
+    flags: ['--format=emacs', '--force-exclusion', '--display-cop-names']
+  ShellCheck:
+    enabled: true
+  TrailingWhitespace:
+    enabled: true
+  TravisLint:
+    enabled: true
+  XmlLint:
+    enabled: true
+  XmlSyntax:
+    enabled: true
+  YamlLint:
+    enabled: true
+  YamlSyntax:
+    enabled: true
+CommitMsg:
+  ALL:
+    on_warn: fail
+  CapitalizedSubject:
+    enabled: false
+  TextWidth:
+    enabled: true
+    max_subject_width: 100
+    max_body_width: 100

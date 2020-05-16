@@ -1,0 +1,67 @@
+{
+  "name": "opsworks_ruby",
+  "description": "Set of chef recipes for OpsWorks based Ruby projects",
+  "long_description": "# opsworks_ruby Cookbook\n\n[![Chef cookbook](https://img.shields.io/cookbook/v/opsworks_ruby.svg)](https://supermarket.chef.io/cookbooks/opsworks_ruby)\n[![Build Status](https://travis-ci.org/ajgon/opsworks_ruby.svg?branch=master)](https://travis-ci.org/ajgon/opsworks_ruby)\n[![Coverage Status](https://coveralls.io/repos/github/ajgon/opsworks_ruby/badge.svg?branch=master)](https://coveralls.io/github/ajgon/opsworks_ruby?branch=master)\n[![Documentation Status](https://readthedocs.org/projects/opsworks-ruby/badge/?version=latest)](http://opsworks-ruby.readthedocs.io/en/latest/?badge=latest)\n[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)\n[![license](https://img.shields.io/github/license/ajgon/opsworks_ruby.svg?maxAge=2592000)](https://opsworks-ruby.mit-license.org/)\n\nA [chef](https://www.chef.io/) cookbook to deploy Ruby applications to Amazon OpsWorks.\n\n## Quick Start\n\nRefer to [Getting Started](http://opsworks-ruby.readthedocs.io/en/latest/getting_started.html)\nguide in [documentation](http://opsworks-ruby.readthedocs.io/en/latest/index.html).\n\n## Development\n\nYou can either install everything locally using [rvm](https://rvm.io/) and [pip](https://pypi.python.org/pypi/pip)\nor use the Docker container which includes all necessary dependencies inside it.\n\n### Build documentation\n\n```\ndocker-compose run cookbook bash -c \"cd docs && make html\"\n```\n\n## Contributing\n\nPlease see [CONTRIBUTING](https://github.com/ajgon/opsworks_ruby/blob/master/CONTRIBUTING.md)\nfor details.\n\n## Author and Contributors\n\nAuthor: [Igor Rzegocki](https://www.rzegocki.pl/) ([@ajgon](https://github.com/ajgon))\n\n### Contributors\n\n* Nick Marden ([@nickmarden](https://github.com/nickmarden))\n* Phong Si ([@phongsi](https://github.com/phongsi))\n* Kevin Olbrich ([@olbrich](https://github.com/olbrich))\n* Kevin Pheasey ([@kpheasey](https://github.com/kpheasey))\n* Nathan Flood ([@npflood](https://github.com/npflood))\n* Teruo Adachi ([@interu](https://github.com/interu))\n* Marcos Beirigo ([@marcosbeirigo](https://github.com/marcosbeirigo))\n* John Calvin Young ([@johncalvinyoung](https://github.com/johncalvinyoung))\n* Rich Seviora ([@richseviora](https://github.com/richseviora))\n* Josh Goodall ([@inopinatus](https://github.com/inopinatus))\n* Kazuki Fujii ([@kazukifujii](https://github.com/kazukifujii))\n\n## License\n\nLicense: [MIT](http://opsworks-ruby.mit-license.org/)\n",
+  "maintainer": "Igor Rzegocki",
+  "maintainer_email": "igor@rzegocki.pl",
+  "license": "MIT",
+  "platforms": {
+    "amazon": ">= 2017.03",
+    "ubuntu": ">= 16.04"
+  },
+  "dependencies": {
+    "apt": "< 7.0",
+    "ark": "= 4.0.0",
+    "chef_client_updater": "~> 3.6.0",
+    "deploy_resource": ">= 0.0.0",
+    "logrotate": "= 2.2.1",
+    "nginx": "< 9.0",
+    "nodejs": ">= 0.0.0",
+    "ohai": "< 5.3",
+    "ruby-ng": ">= 0.0.0",
+    "s3_file": ">= 0.0.0",
+    "seven_zip": "~> 2.0",
+    "sudo": "= 5.4.4",
+    "windows": "< 5.0",
+    "yarn": ">= 0.0.0"
+  },
+  "recommendations": {
+
+  },
+  "suggestions": {
+
+  },
+  "conflicting": {
+
+  },
+  "providing": {
+
+  },
+  "replacing": {
+
+  },
+  "attributes": {
+
+  },
+  "groupings": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "1.18.1",
+  "source_url": "https://github.com/ajgon/opsworks_ruby",
+  "issues_url": "https://github.com/ajgon/opsworks_ruby/issues",
+  "privacy": false,
+  "chef_versions": [
+    [
+      ">= 12.0"
+    ]
+  ],
+  "ohai_versions": [
+
+  ],
+  "gems": [
+
+  ]
+}

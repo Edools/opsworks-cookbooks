@@ -1,0 +1,172 @@
+upstream <%= @name %>_<%= @application[:domains].first %> {
+ server unix:<%= @deploy_dir.to_s %>/shared/sockets/<%= @name %>.sock fail_timeout=0;
+}
+
+server {
+  listen <%= @out[:port] %>;
+  server_name <%= @application[:domains].join(" ") %> <%= node['hostname'] %>;
+  access_log <%= @out[:log_dir] %>/<%= @application[:domains].first %>.access.log;
+  error_log <%= @out[:log_dir] %>/<%= @application[:domains].first %>.error.log <%= @out[:log_level] %>;
+
+  root <%= File.join(@deploy_dir, 'current', 'public') %>;
+
+  proxy_hide_header X-Powered-By;
+  server_tokens off;
+
+  client_max_body_size <%= @out[:client_max_body_size] || '1m' %>;
+  client_body_timeout <%= @out[:client_body_timeout] || '12' %>;
+  client_header_timeout <%= @out[:client_header_timeout] || '12' %>;
+  keepalive_timeout <%= @out[:keepalive_timeout] || '15' %>;
+  send_timeout <%= @out[:send_timeout] || '10' %>;
+
+<% if @application[:enable_ssl] && @out[:force_ssl] %>
+# Force all http requests to https
+<% if @out[:ssl_port].to_i == 443 %>
+  return 301 https://$host$request_uri;
+<% else %>
+  return 301 https://$host:<%= @out[:ssl_port] %>$request_uri;
+<% end %>
+<% else %>
+  # http support
+  location / {
+    try_files $uri/index.html $uri/index.htm @<%= @name %>;
+  }
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+    add_header Access-Control-Allow-Origin "$http_origin";
+    add_header Access-Control-Allow-Methods 'GET, PUT, POST, DELETE';
+    add_header Access-Control-Expose-Headers ETag;
+    add_header X-Content-Type-Options nosniff;
+  }
+
+  location @<%= @name %> {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    <% if @out[:enable_upgrade_method] %>
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    <% end %>
+    proxy_redirect off;
+
+    proxy_read_timeout <%= @out[:proxy_read_timeout] || '60' %>;
+    proxy_send_timeout <%= @out[:proxy_send_timeout] || '60' %>;
+
+    # If you don't find the filename in the static files
+    # Then request it from the <%= @name %> server
+    if (!-f $request_filename) {
+      proxy_pass http://<%= @name %>_<%= @application[:domains].first %>;
+      break;
+    }
+}
+<% end %>
+
+  location /nginx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+
+  <%= @out[:extra_config] %>
+
+  error_page 500 502 503 504 /500.html;
+  location = /500.html {
+    root <%= File.join(@deploy_dir, 'current', 'public') %>;
+  }
+}
+
+<% if @application[:enable_ssl] %>
+server {
+  listen <%= @out[:ssl_port] %>;
+  server_name <%= @application[:domains].join(" ") %> <%= node['hostname'] %>;
+  access_log <%= @out[:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
+  error_log <%= @out[:log_dir] %>/<%= @application[:domains].first %>-ssl.error.log <%= @out[:log_level] %>;
+
+  ssl on;
+  ssl_certificate <%= @ssl_cert_dir %>/<%= @application[:domains].first %>.crt;
+  ssl_certificate_key <%= @ssl_cert_dir %>/<%= @application[:domains].first %>.key;
+  <% if @application[:ssl_configuration][:chain] -%>
+  ssl_client_certificate <%= @ssl_cert_dir %>/<%= @application[:domains].first %>.ca;
+  <% end -%>
+
+  <% if @out[:ssl_for_legacy_browsers] -%>
+  ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH:ECDHE-RSA-AES128-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA128:DHE-RSA-AES128-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA128:ECDHE-RSA-AES128-SHA384:ECDHE-RSA-AES128-SHA128:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES128-SHA128:DHE-RSA-AES128-SHA128:DHE-RSA-AES128-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA384:AES128-GCM-SHA128:AES128-SHA128:AES128-SHA128:AES128-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  <% else -%>
+  ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+  ssl_protocols TLSv1.2;
+    <% if Gem::Version.new(node['nginx']['version']) >= Gem::Version.new('1.1.0') -%>
+  ssl_ecdh_curve secp384r1;
+    <% end -%>
+  <% end -%>
+
+  ssl_prefer_server_ciphers on;
+  ssl_session_cache shared:SSL:10m;
+  <% if Gem::Version.new(node['nginx']['version']) >= Gem::Version.new('1.5.9') -%>
+  ssl_session_tickets off;
+  <% end -%>
+  <% if Gem::Version.new(node['nginx']['version']) >= Gem::Version.new('1.3.7') -%>
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  <% end -%>
+  <% if @out[:dhparams].present? -%>
+  ssl_dhparam <%= @ssl_cert_dir %>/<%= @application[:domains].first %>.dhparams.pem;
+  <% end -%>
+
+  root <%= File.join(@deploy_dir, 'current', 'public') %>;
+
+  proxy_hide_header X-Powered-By;
+  server_tokens off;
+
+  client_max_body_size <%= @out[:client_max_body_size] || '1m' %>;
+  client_body_timeout <%= @out[:client_body_timeout] || '12' %>;
+  client_header_timeout <%= @out[:client_header_timeout] || '12' %>;
+  keepalive_timeout <%= @out[:keepalive_timeout] || '15' %>;
+  send_timeout <%= @out[:send_timeout] || '10' %>;
+
+  location / {
+    try_files $uri/index.html $uri/index.htm @<%= @name %>;
+  }
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+    add_header Access-Control-Allow-Origin "$http_origin";
+    add_header Access-Control-Allow-Methods 'GET, PUT, POST, DELETE';
+    add_header Access-Control-Expose-Headers ETag;
+    add_header X-Content-Type-Options nosniff;
+  }
+
+  location @<%= @name %> {
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    <% if @out[:enable_upgrade_method] %>
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    <% end %>
+    proxy_redirect off;
+
+    proxy_read_timeout <%= @out[:proxy_read_timeout] || '60' %>;
+    proxy_send_timeout <%= @out[:proxy_send_timeout] || '60' %>;
+
+    # If you don't find the filename in the static files
+    # Then request it from the <%= @name %> server
+    if (!-f $request_filename) {
+      proxy_pass http://<%= @name %>_<%= @application[:domains].first %>;
+      break;
+    }
+  }
+
+  <%= @out[:extra_config_ssl] %>
+
+  error_page 500 502 503 504 /500.html;
+  location = /500.html {
+    root <%= File.join(@deploy_dir, 'current', 'public') %>;
+  }
+}
+<% end %>
