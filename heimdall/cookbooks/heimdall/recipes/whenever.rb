@@ -13,7 +13,7 @@ node[:deploy].each do |application, deploy|
 
     Chef::Log.info("Updating cron ...")
 
-    code "bundle exec whenever --set environment=#{deploy[:rails_env]} --update-crontab #{app[:shortname]} --roles #{layers.join(',')}"
+    code "bundle exec whenever --set environment=#{deploy[:rails_env]} --update-crontab #{app[:shortname]}"
     only_if "cd #{deploy[:deploy_to]}/current && bundle show whenever"
   end
 end
