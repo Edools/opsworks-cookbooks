@@ -1,12 +1,15 @@
 Chef::Log.info("[Restart] Delayed Job ...")
 
-node[:deploy].each do |application, deploy|
-  deploy = node[:deploy][application]
+app = search("aws_opsworks_app").first
+deploy_to = "#{node[:deploy][:to]}/#{app[:shortname]}"
+
+# node[:deploy].each do |application, deploy|
+#   deploy = node[:deploy][application]
 
   bash "restart-delayed_job-#{application}" do
     # layers = node[:opsworks][:instance][:layers]
 
-    cwd "#{deploy[:deploy_to]}/current"
+    cwd "#{deploy_to}/current"
     user 'deploy'
 
     Chef::Log.info("Restarting delayed_job ...")
@@ -20,6 +23,7 @@ node[:deploy].each do |application, deploy|
       nohup ./start.sh 0<&- &> my.admin.log.file &
     EOH
   end
-end
+  
+# end
 
 Chef::Log.info("[End] Restarting Delayed Job")
