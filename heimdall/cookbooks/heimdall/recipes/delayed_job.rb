@@ -4,7 +4,7 @@ node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
   bash "restart-delayed_job-#{application}" do
-    layers = node[:opsworks][:instance][:layers]
+    # layers = node[:opsworks][:instance][:layers]
 
     cwd "#{deploy[:deploy_to]}/current"
     user 'deploy'
