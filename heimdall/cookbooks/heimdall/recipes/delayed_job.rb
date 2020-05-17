@@ -6,7 +6,7 @@ deploy_to = "#{node[:deploy][:to]}/#{app[:shortname]}"
 # node[:deploy].each do |application, deploy|
 #   deploy = node[:deploy][application]
 
-  bash "restart-delayed_job-#{application}" do
+  bash "restart-delayed_job" do
     # layers = node[:opsworks][:instance][:layers]
 
     cwd "#{deploy_to}/current"
