@@ -68,7 +68,7 @@ deploy "#{deploy_to}" do
     end
     
     execute "Build project" do
-      command "NODE_ENV=production yarn build:webpack"
+      command "NODE_ENV=production yarn build"
       cwd release_path
     end
         
